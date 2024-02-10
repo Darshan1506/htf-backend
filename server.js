@@ -2,7 +2,7 @@ const express = require("express");
 const fs = require("fs");
 const path = require("path");
 const OpenAI = require("openai");
-const cors = require("cors"); // Import the cors middleware
+const cors = require("cors");
 
 const app = express();
 const port = 3001;
@@ -11,11 +11,11 @@ const openai = new OpenAI({ apiKey: openaiApiKey });
 app.use(cors());
 app.use(express.json());
 // question to audio , it will be question sent to the backend it will
-app.get("/generate-audio", async (req, res) => {
-    const question = req.query.question;
-    if (!userInput) {
-      return res.status(400).send("Missing 'text' parameter");
-    }
+app.post("/generate-audio", async (req, res) => {
+    const question = req.body.question;
+    // if (!userInput) {
+    //   return res.status(400).send("Missing 'text' parameter");
+    // }
     const mp3 = await openai.audio.speech.create({
       model: 'tts-1',
       voice: 'alloy',
@@ -44,7 +44,9 @@ app.post('/topic-questions', async (req, res) => {
       ],
       model: "gpt-3.5-turbo",
     });
-    const generatedQuestions = completion.choices[0];
+    const generatedQuestions = completion.choices[0].message.content
+      .split('\n')
+      .filter(question => question.trim() !== "");
     console.log(generatedQuestions);
     res.json({ generatedQuestions });
 });
