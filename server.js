@@ -6,7 +6,7 @@ const cors = require("cors");
 
 const app = express();
 const port = 3001;
-const openaiApiKey = "";
+const openaiApiKey = process.env.openaiApiKey;
 const openai = new OpenAI({ apiKey: openaiApiKey });
 app.use(cors());
 app.use(express.json());
