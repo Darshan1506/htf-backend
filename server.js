@@ -14,6 +14,7 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   next();
 });
+// Remove this line if you are using your custom CORS middleware
 app.use(cors());
 app.use(express.json());
 // question to audio , it will be question sent to the backend it will
