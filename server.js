@@ -8,6 +8,12 @@ const app = express();
 const port = 3001;
 const openaiApiKey = process.env.openaiApiKey;
 const openai = new OpenAI({ apiKey: openaiApiKey });
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://prepwithme.onrender.com');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
 app.use(cors());
 app.use(express.json());
 // question to audio , it will be question sent to the backend it will
